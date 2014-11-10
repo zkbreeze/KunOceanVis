@@ -26,3 +26,6 @@
 *.exe
 *.out
 *.app
+App/ScatterPlot/ScatterPlot
+
+Makefile.kvs
