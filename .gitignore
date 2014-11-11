@@ -27,5 +27,7 @@
 *.out
 *.app
 App/ScatterPlot/ScatterPlot
+App/MultiVar2D/MultiVar2D
 
 Makefile.kvs
+.DS_Store
