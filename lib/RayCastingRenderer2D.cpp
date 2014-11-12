@@ -539,7 +539,7 @@ void RayCastingRenderer2D::initialize_bounding_cube_buffer( const kvs::Structure
 void RayCastingRenderer2D::initialize_transfer_function_texture()
 {
     const size_t size = BaseClass::transferFunction().resolution();
-    const size_t width = std::sqrt( size );
+    const size_t side_size = std::sqrt( size );
     const kvs::ValueArray<kvs::Real32> table = BaseClass::transferFunction().table();
 
     m_transfer_function_texture.release();
@@ -548,7 +548,7 @@ void RayCastingRenderer2D::initialize_transfer_function_texture()
     m_transfer_function_texture.setMagFilter( GL_LINEAR );
     m_transfer_function_texture.setMinFilter( GL_LINEAR );
     m_transfer_function_texture.setPixelFormat( GL_RGBA32F_ARB, GL_RGBA, GL_FLOAT  );
-    m_transfer_function_texture.create( width, width, table.data() );
+    m_transfer_function_texture.create( side_size, side_size, table.data() );
 }
 
 /*===========================================================================*/
