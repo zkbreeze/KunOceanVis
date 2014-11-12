@@ -15,6 +15,8 @@
 #include <kvs/CommandLine>
 #include "RayCastingRenderer2D.h"
 #include <kvs/TransferFunction>
+#include <kvs/ColorMap>
+#include <kvs/OpacityMap>
 
 int main( int argc, char** argv )
 {
@@ -34,22 +36,27 @@ int main( int argc, char** argv )
     kvs::StructuredVolumeObject* volume_2 = new kvs::StructuredVolumeImporter( filename2 );
     
     // set the 2d transfer function
-    size_t tfunc_width = 64;
-    kvs::TransferFunction tfunc( tfunc_width * tfunc_width );
+    size_t side_size = 10;
+    kvs::TransferFunction tfunc( side_size * side_size );
 
-//     size_t width = 64;
-//     size_t height = 64;
-//     float* tfunc2d = new float[width * height * 4];
-//     for ( size_t j = 0; j < height; j++ )
-//         for ( size_t i = 0; i < width; i++ )
-//         {
-//             int index = ( i + j * width ) * 4;
-//             tfunc2d[index] = (float)i / width; // red
-//             tfunc2d[index + 1] = (float)j / height; // green
-//             tfunc2d[index + 2] = 1;              // blue
-//             tfunc2d[index + 3] = (float) i * j / ( width * height ); //alpha
-// //            *(tfunc2d++) = 0.01;
-//         }
+    kvs::ColorMap cmap;
+    kvs::OpacityMap omap;
+    for ( size_t j = 0; j < side_size; j++ )
+        for ( size_t i = 0; i < side_size; i++ )
+        {
+            unsigned char red = ( (float)i / side_size ) * 255;
+            unsigned char green = ( (float)j / side_size ) * 255;
+            unsigned char blue = ( (float)j / side_size ) * 255;
+            float opacity = (float) i * j / ( side_size * side_size );
+
+            float location = (float)( i + j * side_size ) / (side_size * side_size );
+            cmap.addPoint( location, kvs::RGBColor( red, green, blue ) );
+            omap.addPoint( location, opacity );
+        }
+    cmap.create();
+    omap.create();
+    tfunc.setColorMap( cmap );
+    tfunc.setOpacityMap( omap );
     
     kun::RayCastingRenderer2D* renderer = new kun::RayCastingRenderer2D();
     

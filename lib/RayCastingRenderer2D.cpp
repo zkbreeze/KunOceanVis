@@ -540,7 +540,6 @@ void RayCastingRenderer2D::initialize_transfer_function_texture()
 {
     const size_t size = BaseClass::transferFunction().resolution();
     const size_t width = std::sqrt( size );
-    std::cout << "width of the TF: " << width << std::endl;
     const kvs::ValueArray<kvs::Real32> table = BaseClass::transferFunction().table();
 
     m_transfer_function_texture.release();
@@ -560,7 +559,6 @@ void RayCastingRenderer2D::initialize_transfer_function_texture()
 /*===========================================================================*/
 void RayCastingRenderer2D::initialize_volume_texture( const kvs::StructuredVolumeObject* volume, kvs::Texture3D& texture )
 {
-    std::cout << "begin to initialize the volume texture" << std::endl;
     texture.release();
 
     const size_t width = volume->resolution().x();
